@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { api } from "../api/api"
 import { useMessageStore } from "../store/useMessageStore"
 import Button from "./Button"
@@ -7,11 +8,13 @@ const MessageField = () => {
     const { getMessages } = useMessageStore()
     const handleSubmit = async (e) => {
         e.preventDefault()
+        
         const message = { content: e.target.content.value }
 
         try {
             await api.sendMessage(message)
             await getMessages()
+            e.target.reset()
         } catch (error) {
             console.error(error)
         }
